@@ -668,7 +668,7 @@
             <div>
                 <h1>Aeschi Park</h1>
                 <p class="subtitle">Luxury Living in the Heart of the Swiss Alps</p>
-                <a href="#contact" class="btn btn-primary-custom">Schedule Your Visit</a>
+                <a href="#contact" class="btn btn-primary-custom">Get in touch</a>
             </div>
         </div>
     </section>
@@ -1089,10 +1089,10 @@
     </section>
 
     <!-- Get More Details Section -->
-    <section class="form-section">
+    <section id="contact" class="form-section">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <h2 class="display-4 fw-bold text-white mb-4">Get More Details</h2>
+                <h2 class="display-4 fw-bold text-white mb-4">Get in touch</h2>
                 <p class="lead text-white">Speak to our sales advisors and secure your Alpine home</p>
             </div>
             
@@ -1101,7 +1101,7 @@
                     <div class="form-container" data-aos="fade-up">
                         <form id="contactForm">
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-12">
                                     <label for="fullName" class="form-label">Full Name *</label>
                                     <input type="text" class="form-control" id="fullName" required>
                                 </div>
@@ -1111,6 +1111,26 @@
                                     <input type="text" class="form-control" id="city" required>
                                 </div>
                                 
+                                <div class="col-md-6">
+                                    <label for="country" class="form-label">Country *</label>
+                                    <select class="form-select" id="country" required>
+                                        <option value="">Select Country</option>
+                                        <option value="Switzerland">Switzerland</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="France">France</option>
+                                        <option value="Italy">Italy</option>
+                                        <option value="Austria">Austria</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="India">India</option>
+                                        <option value="China">China</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                
                                 <div class="col-12">
                                     <label for="emailAddress" class="form-label">Email Address *</label>
                                     <input type="email" class="form-control" id="emailAddress" required>
@@ -1118,47 +1138,47 @@
                                 
                                 <div class="col-12">
                                     <label for="phoneNumber" class="form-label">Phone Number *</label>
-                                    <input type="tel" class="form-control" id="phoneNumber" required>
-                                </div>
-                                
-                                <div class="col-12">
-                                    <label class="form-label">Preferred Contact Method *</label>
-                                    <div class="contact-methods">
-                                        <div class="contact-method">
-                                            <input type="radio" id="contact-email" name="contactMethod" value="email" required>
-                                            <label for="contact-email">
-                                                <i class="bi bi-envelope"></i> Email
-                                            </label>
+                                    <div class="row g-2">
+                                        <div class="col-auto">
+                                            <select class="form-select" id="countryCode" style="min-width: 120px;" required>
+                                                <option value="">+41</option>
+                                                <option value="+1">+1 (US/CA)</option>
+                                                <option value="+44">+44 (UK)</option>
+                                                <option value="+49">+49 (DE)</option>
+                                                <option value="+33">+33 (FR)</option>
+                                                <option value="+39">+39 (IT)</option>
+                                                <option value="+43">+43 (AT)</option>
+                                                <option value="+91">+91 (IN)</option>
+                                                <option value="+86">+86 (CN)</option>
+                                                <option value="+81">+81 (JP)</option>
+                                                <option value="+61">+61 (AU)</option>
+                                                <option value="+971">+971 (UAE)</option>
+                                                <option value="+966">+966 (SA)</option>
+                                                <option value="+65">+65 (SG)</option>
+                                                <option value="+852">+852 (HK)</option>
+                                            </select>
                                         </div>
-                                        <div class="contact-method">
-                                            <input type="radio" id="contact-whatsapp-message" name="contactMethod" value="whatsapp-message">
-                                            <label for="contact-whatsapp-message">
-                                                <i class="bi bi-chat-dots"></i> WhatsApp Message
-                                            </label>
-                                        </div>
-                                        <div class="contact-method">
-                                            <input type="radio" id="contact-whatsapp-call" name="contactMethod" value="whatsapp-call">
-                                            <label for="contact-whatsapp-call">
-                                                <i class="bi bi-telephone"></i> WhatsApp Call
-                                            </label>
+                                        <div class="col">
+                                            <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number" required>
                                         </div>
                                     </div>
                                 </div>
                                 
+                                
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary-custom w-100">
-                                        Speak to a Sales Advisor
+                                        Send Email
                                     </button>
                                 </div>
                             </div>
                         </form>
                         
                         <div class="spinner" id="formSpinner"></div>
-                        <div class="success-message text-center" id="successMessage">
+                        <div class="success-message text-center" id="successMessage" style="display: none;">
                             <h4>Thank you for your interest!</h4>
                             <p>Our sales advisor will contact you within 24 hours.</p>
                         </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -1169,9 +1189,9 @@
         <!-- <a href="mailto:info@aeschipark.ch" class="floating-btn floating-email" title="Email Us">
             <i class="bi bi-envelope-fill"></i>
         </a> -->
-        <a href="https://wa.me/+919936968762?text=I'm%20interested%20in%20Aeschi%20Park%20apartments" target="_blank" class="floating-btn floating-whatsapp" title="WhatsApp Us">
+        <!-- <a href="https://wa.me/+919936968762?text=I'm%20interested%20in%20Aeschi%20Park%20apartments" target="_blank" class="floating-btn floating-whatsapp" title="WhatsApp Us">
             <i class="bi bi-whatsapp"></i>
-        </a>
+        </a> -->
     </div>
 
     <!-- Footer -->
@@ -1295,23 +1315,17 @@
             // Validate form
             const fullName = document.getElementById('fullName').value;
             const city = document.getElementById('city').value;
+            const country = document.getElementById('country').value;
             const email = document.getElementById('emailAddress').value;
             const phone = document.getElementById('phoneNumber').value;
-            const contactMethodElement = document.querySelector('input[name="contactMethod"]:checked');
+            const countryCode = document.getElementById('countryCode').value;
             
-            console.log('Form data:', { fullName, city, email, phone, contactMethodElement });
+            console.log('Form data:', { fullName, city, country, email, phone, countryCode });
             
-            if (!fullName || !city || !email || !phone) {
+            if (!fullName || !city || !country || !email || !phone || !countryCode) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            
-            if (!contactMethodElement) {
-                alert('Please select a preferred contact method.');
-                return;
-            }
-            
-            const contactMethod = contactMethodElement.value;
             
             spinner.classList.add('show');
             submitBtn.disabled = true;
@@ -1321,9 +1335,9 @@
             const formData = {
                 fullName: fullName,
                 city: city,
+                country: country,
                 email: email,
-                phone: phone,
-                contactMethod: contactMethod.value,
+                phone: countryCode + ' ' + phone,
                 dateTime: new Date().toISOString()
             };
             
@@ -1369,21 +1383,21 @@
                     successMessage.style.display = 'block';
                     e.target.style.display = 'none';
                     
-                    // Reset form after 5 seconds
+                    // Show form again after 3 seconds
                     setTimeout(() => {
                         e.target.reset();
                         e.target.style.display = 'block';
                         successMessage.style.display = 'none';
                         submitBtn.disabled = false;
-                        submitBtn.textContent = 'Speak to a Sales Advisor';
-                    }, 5000);
+                        submitBtn.textContent = 'Send Email';
+                    }, 3000);
                 })
                 .catch(function(error) {
                     console.error('Error details:', error);
                     alert('There was an error sending your message. Please check the console for details.');
                     spinner.classList.remove('show');
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Speak to a Sales Advisor';
+                    submitBtn.textContent = 'Send Email';
                 });
         });
         
