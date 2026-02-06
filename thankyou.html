@@ -29,11 +29,26 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background-image: url('Public/Get/optimized_Photo_Drone_Aeshi_Park_26.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
         }
 
         .thankyou-container {
@@ -46,6 +61,7 @@
             width: 90%;
             position: relative;
             overflow: hidden;
+            z-index: 2;
         }
 
         .thankyou-container::before {
