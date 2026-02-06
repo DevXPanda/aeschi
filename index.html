@@ -941,7 +941,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="form-container" data-aos="fade-up">
-                        <form id="contactForm">
+                        <form action="thankyou.html" method="get">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label for="fullName" class="form-label">Full Name *</label>
@@ -1015,12 +1015,7 @@
                             </div>
                         </form>
                         
-                        <div class="spinner" id="formSpinner"></div>
-                        <div class="success-message text-center" id="successMessage" style="display: none;">
-                            <h4>Thank you for your interest!</h4>
-                            <p>Our sales advisor will contact you within 24 hours.</p>
-                        </div>
-                    
+                                            
                 </div>
             </div>
         </div>
@@ -1069,22 +1064,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
-    <script>
-        // Initialize EmailJS
-        (function() {
-            emailjs.init("Av8gOxTr7IZ5zsI5a"); // Replace with your EmailJS public key
-        })();
-
-        // EmailJS Configuration
-        const EMAILJS_CONFIG = {
-            serviceId: 'service_r1xfufe',           // Your EmailJS service ID
-            visitorTemplateId: 'template_kl0m73a', // Visitor confirmation template
-            leadTemplateId: 'template_b9czwca'     // Lead notification template
-        };
-
+        <script>
         // Auto Slider for Hero Section
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
@@ -1134,112 +1115,7 @@
             });
         });
 
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            console.log('Form submission started');
-            
-            // Show loading state
-            const spinner = document.getElementById('formSpinner');
-            const successMessage = document.getElementById('successMessage');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            
-            // Validate form
-            const fullName = document.getElementById('fullName').value;
-            const city = document.getElementById('city').value;
-            const country = document.getElementById('country').value;
-            const email = document.getElementById('emailAddress').value;
-            const phone = document.getElementById('phoneNumber').value;
-            const countryCode = document.getElementById('countryCode').value;
-            
-            console.log('Form data:', { fullName, city, country, email, phone, countryCode });
-            
-            if (!fullName || !city || !country || !email || !phone || !countryCode) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            spinner.classList.add('show');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            
-            // Get form data
-            const formData = {
-                fullName: fullName,
-                city: city,
-                country: country,
-                email: email,
-                phone: countryCode + ' ' + phone,
-                dateTime: new Date().toISOString()
-            };
-            
-            console.log('Sending data:', formData);
-            console.log('EmailJS config:', EMAILJS_CONFIG);
-
-            // Send visitor confirmation email
-            emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.visitorTemplateId, formData)
-                .then(function(response) {
-                    console.log('Visitor confirmation email sent:', response);
-                    
-                    // Send lead notification to sales team
-                    return emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.leadTemplateId, formData);
-                })
-                .then(function(response) {
-                    console.log('Lead notification email sent:', response);
-                    
-                    // Send to Google Sheets
-                    return sendToGoogleSheets(formData);
-                })
-                .then(function(response) {
-                    console.log('Google Sheets success:', response);
-                    
-                    // Show success message
-                    spinner.classList.remove('show');
-                    successMessage.style.display = 'block';
-                    e.target.style.display = 'none';
-                    
-                    // Show form again after 3 seconds
-                    setTimeout(() => {
-                        e.target.reset();
-                        e.target.style.display = 'block';
-                        successMessage.style.display = 'none';
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Send Email';
-                    }, 3000);
-                })
-                .catch(function(error) {
-                    console.error('Error details:', error);
-                    alert('There was an error sending your message. Please check the console for details.');
-                    spinner.classList.remove('show');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Email';
-                });
-        });
-        
-        // Function to send data to Google Sheets via Apps Script
-        function sendToGoogleSheets(data) {
-            const googleAppsScriptURL = 'https://script.google.com/macros/s/AKfycbzuQRq1i7NkcdLGtoxNO_TaRIK1d7EXMrjZSNhHsHrHLcMjK5PQUmK9NqKrSHE8oIc/exec';
-            
-            return fetch(googleAppsScriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                // Since we're using no-cors, we won't get detailed response
-                // but the request should still be sent
-                return { status: 'success' };
-            })
-            .catch(error => {
-                console.warn('Google Sheets request may have failed (expected due to CORS):', error);
-                // Return success anyway since the data was likely sent
-                return { status: 'success' };
-            });
-        }
+        // Form elements removed for simple HTML submission
 
         // Gallery lightbox effect
         document.querySelectorAll('.gallery-item').forEach(item => {
