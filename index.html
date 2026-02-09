@@ -1060,31 +1060,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label class="form-label">Preferred Contact Method *</label>
-                                    <div class="contact-methods">
-                                        <div class="contact-method">
-                                            <input type="radio" id="contactEmail" name="contactMethod" value="Email"
-                                                checked>
-                                            <label for="contactEmail">
-                                                <i class="bi bi-envelope me-2"></i>Email
-                                            </label>
-                                        </div>
-                                        <div class="contact-method">
-                                            <input type="radio" id="contactPhone" name="contactMethod" value="Phone">
-                                            <label for="contactPhone">
-                                                <i class="bi bi-telephone me-2"></i>Phone
-                                            </label>
-                                        </div>
-                                        <div class="contact-method">
-                                            <input type="radio" id="contactWhatsapp" name="contactMethod"
-                                                value="WhatsApp">
-                                            <label for="contactWhatsapp">
-                                                <i class="bi bi-whatsapp me-2"></i>WhatsApp
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+
 
 
                                 <div class="col-12">
@@ -1253,7 +1229,7 @@
                 country: document.getElementById('country').value,
                 email: document.getElementById('emailAddress').value,
                 phone: document.getElementById('countryCode').value + ' ' + document.getElementById('phoneNumber').value,
-                contactMethod: document.querySelector('input[name="contactMethod"]:checked').value,
+                contactMethod: 'Email',
                 dateTime: new Date().toLocaleString()
             };
 
@@ -1261,23 +1237,27 @@
             const serviceID = 'service_r1xfufe';
 
             // Google Apps Script URL (Changed /dev to /exec for production)
-            const googleScriptURL = 'https://script.google.com/macros/s/AKfycbxS8txz7j10nTrhbimBgMhCPAiNlEwCSIFcVL4Munmm/exec';
+            const googleScriptURL = 'https://script.google.com/macros/s/AKfycbw7tJDu6A4N4Lt6bMrAv36BX0CnDSm5VJKOxzoykOgTBtm8h3acEe-9lFIlnEImrKC_/exec';
 
             // Send Emails
             const sendClientEmail = emailjs.send(serviceID, 'template_kl0m73a', formData);
             const sendAdminEmail = emailjs.send(serviceID, 'template_b9czwca', formData);
 
             // Send to Google Sheets
-            // We use FormData for Google Apps Script to parse easily
-            const formElement = document.getElementById('contactForm');
-            const formBody = new FormData(formElement);
-            // Add custom fields if they aren't in the form directly or need formatting
-            formBody.set('dateTime', formData.dateTime); // Ensure date is sent
+            // Create a fresh FormData object to ensure exact keys and values
+            const formBody = new FormData();
+            formBody.append('dateTime', formData.dateTime);
+            formBody.append('fullName', formData.fullName);
+            formBody.append('city', formData.city);
+            formBody.append('country', formData.country);
+            formBody.append('email', formData.email);
+            formBody.append('phone', formData.phone);
+            formBody.append('contactMethod', formData.contactMethod);
 
             const sendToSheets = fetch(googleScriptURL, {
                 method: 'POST',
                 body: formBody,
-                mode: 'no-cors' // Required for Google Apps Script POSTs from browser
+                mode: 'no-cors'
             });
 
             Promise.all([sendClientEmail, sendAdminEmail, sendToSheets])
