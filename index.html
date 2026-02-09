@@ -1026,17 +1026,17 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="emailAddress" class="form-label">Email Address *</label>
-                                    <input type="email" class="form-control" id="emailAddress" name="email" required>
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="phoneNumber" class="form-label">Phone Number *</label>
+                                    <label for="phone" class="form-label">Phone Number *</label>
                                     <div class="row g-2">
                                         <div class="col-auto">
                                             <select class="form-select" id="countryCode" style="min-width: 120px;"
                                                 required>
-                                                <option value="">+41</option>
+                                                <option value="+41">+41</option>
                                                 <option value="+1">+1 (US/CA)</option>
                                                 <option value="+44">+44 (UK)</option>
                                                 <option value="+49">+49 (DE)</option>
@@ -1054,7 +1054,7 @@
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <input type="tel" class="form-control" id="phoneNumber" name="phone"
+                                            <input type="tel" class="form-control" id="phone" name="phone"
                                                 placeholder="Phone number" required>
                                         </div>
                                     </div>
@@ -1062,6 +1062,31 @@
 
 
 
+                                <!-- <div class="col-12">
+                                    <label class="form-label">Preferred Contact Method *</label>
+                                    <div class="contact-methods">
+                                        <div class="contact-method">
+                                            <input type="radio" id="contactEmail" name="contactMethod" value="Email"
+                                                checked>
+                                            <label for="contactEmail">
+                                                <i class="bi bi-envelope me-2"></i>Email
+                                            </label>
+                                        </div>
+                                        <div class="contact-method">
+                                            <input type="radio" id="contactPhone" name="contactMethod" value="Phone">
+                                            <label for="contactPhone">
+                                                <i class="bi bi-telephone me-2"></i>Phone
+                                            </label>
+                                        </div>
+                                        <div class="contact-method">
+                                            <input type="radio" id="contactWhatsapp" name="contactMethod"
+                                                value="WhatsApp">
+                                            <label for="contactWhatsapp">
+                                                <i class="bi bi-whatsapp me-2"></i>WhatsApp
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div> -->
 
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary-custom w-100" id="submitBtn">
@@ -1222,42 +1247,37 @@
             submitBtn.innerHTML = 'Sending... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
             submitBtn.disabled = true;
 
-            // Collect Form Data
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                city: document.getElementById('city').value,
-                country: document.getElementById('country').value,
-                email: document.getElementById('emailAddress').value,
-                phone: document.getElementById('countryCode').value + ' ' + document.getElementById('phoneNumber').value,
-                contactMethod: 'Email',
+            // Collect Form Data EXACTLY as requested
+            const params = {
+                fullName: document.getElementById("fullName")?.value || "",
+                city: document.getElementById("city")?.value || "",
+                country: document.getElementById("country")?.value || "",
+                email: document.getElementById("email")?.value || "",
+                phone: (document.getElementById("countryCode")?.value || "") + " " + (document.getElementById("phone")?.value || ""),
+                contactMethod: document.querySelector("input[name='contactMethod']:checked")?.value || "",
                 dateTime: new Date().toLocaleString()
             };
+
+            // Debugging
+            console.log("FINAL PARAMS", params);
 
             // EmailJS Service ID
             const serviceID = 'service_r1xfufe';
 
-            // Google Apps Script URL (Changed /dev to /exec for production)
-            const googleScriptURL = 'https://script.google.com/macros/s/AKfycbz7HbmU1WC-dkIhZSITJHq2Rxq9WIi0JG6dL2O2H0bgoy5biqwmoU_73Q3-eK8_GOfY/exec';
+            // Google Apps Script URL
+            const googleScriptURL = 'https://script.google.com/macros/s/AKfycby46dcIyhSr3sKYK-bXZx2bHFon80lPp9pTdVedgbh7U7S2bI1n2Z_E9dNqeke4u3A2cg/exec';
 
             // Send Emails
-            const sendClientEmail = emailjs.send(serviceID, 'template_kl0m73a', formData);
-            const sendAdminEmail = emailjs.send(serviceID, 'template_b9czwca', formData);
+            const sendClientEmail = emailjs.send(serviceID, 'template_kl0m73a', params);
+            const sendAdminEmail = emailjs.send(serviceID, 'template_b9czwca', params);
 
-            // Send to Google Sheets
-            // Create a fresh FormData object to ensure exact keys and values
-            const formBody = new FormData();
-            formBody.append('dateTime', formData.dateTime);
-            formBody.append('fullName', formData.fullName);
-            formBody.append('city', formData.city);
-            formBody.append('country', formData.country);
-            formBody.append('email', formData.email);
-            formBody.append('phone', formData.phone);
-            formBody.append('contactMethod', formData.contactMethod);
-
+            // Send to Google Sheets using JSON string
             const sendToSheets = fetch(googleScriptURL, {
                 method: 'POST',
-                body: formBody,
-                mode: 'no-cors'
+                body: JSON.stringify(params),
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                }
             });
 
             Promise.all([sendClientEmail, sendAdminEmail, sendToSheets])
@@ -1268,9 +1288,6 @@
                 .catch((error) => {
                     // Error
                     console.error('FAILED...', error);
-                    // Even if sheets fail (which we might not know due to no-cors), we alert.
-                    // However, Promise.all might fail if EmailJS fails.
-                    // no-cors fetch rarely rejects, so it shouldn't block EmailJS success.
                     alert('Something went wrong. Please try again later.');
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
