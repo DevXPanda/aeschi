@@ -640,15 +640,7 @@
             src="https://www.facebook.com/tr?id=1216502703396053&ev=PageView&noscript=1" />
     </noscript>
     <!-- End Meta Pixel Code -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-    </script>
-    <script type="text/javascript">
-        (function () {
-            emailjs.init({
-                publicKey: "Av8gOxTr7IZ5zsI5a",
-            });
-        })();
-    </script>
+    <!-- EmailJS removed -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6KKR7JQW9C"></script>
     <script>
@@ -1247,13 +1239,13 @@
             submitBtn.innerHTML = 'Sending... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
             submitBtn.disabled = true;
 
-            // Collect Form Data EXACTLY as requested
+            // Collect Form Data EXACTLY as requested by GAS
             const params = {
                 fullName: document.getElementById("fullName")?.value || "",
                 city: document.getElementById("city")?.value || "",
                 country: document.getElementById("country")?.value || "",
                 email: document.getElementById("email")?.value || "",
-                phone: (document.getElementById("countryCode")?.value || "") + " " + (document.getElementById("phone")?.value || ""),
+                phone: "'" + (document.getElementById("countryCode")?.value || "") + " " + (document.getElementById("phone")?.value || ""),
                 contactMethod: document.querySelector("input[name='contactMethod']:checked")?.value || "",
                 dateTime: new Date().toLocaleString()
             };
@@ -1261,34 +1253,29 @@
             // Debugging
             console.log("FINAL PARAMS", params);
 
-            // EmailJS Service ID
-            const serviceID = 'service_r1xfufe';
-
             // Google Apps Script URL
-            const googleScriptURL = 'https://script.google.com/macros/s/AKfycby46dcIyhSr3sKYK-bXZx2bHFon80lPp9pTdVedgbh7U7S2bI1n2Z_E9dNqeke4u3A2cg/exec';
+            // Google Apps Script URL
+            const googleScriptURL = 'https://script.google.com/macros/s/AKfycbwLWGQUmCl9bhLADTxC068eVO_Hz7h83mucBhH3yW21bxWZVdL9mxewZdG8tA0NEGin4w/exec';
 
-            // Send Emails
-            const sendClientEmail = emailjs.send(serviceID, 'template_kl0m73a', params);
-            const sendAdminEmail = emailjs.send(serviceID, 'template_b9czwca', params);
 
-            // Send to Google Sheets using JSON string
-            const sendToSheets = fetch(googleScriptURL, {
+            // Send to Google Sheets (Blind POST)
+            fetch(googleScriptURL, {
                 method: 'POST',
                 body: JSON.stringify(params),
+                mode: 'no-cors', // Blind POST, opaque response
                 headers: {
                     "Content-Type": "text/plain;charset=utf-8",
                 }
-            });
-
-            Promise.all([sendClientEmail, sendAdminEmail, sendToSheets])
+            })
                 .then(() => {
-                    // Success
+                    // Success (assumed since no-cors returns opaque response that resolves)
+                    console.log('Request sent (blind mode).');
                     window.location.href = 'thankyou.html';
                 })
                 .catch((error) => {
-                    // Error
+                    // Network error only
                     console.error('FAILED...', error);
-                    alert('Something went wrong. Please try again later.');
+                    alert('Something went wrong. Please check your internet connection and try again.');
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
                 });
