@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +55,7 @@
         .thankyou-container {
             background: var(--bg-white);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             padding: 60px 40px;
             text-align: center;
             max-width: 600px;
@@ -96,9 +97,11 @@
                 transform: scale(0);
                 opacity: 0;
             }
+
             50% {
                 transform: scale(1.1);
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -129,7 +132,7 @@
             border-radius: 50px;
             color: white;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -139,7 +142,7 @@
 
         .btn-back-home:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
             color: white;
         }
@@ -182,6 +185,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -193,15 +197,15 @@
                 padding: 40px 20px;
                 margin: 20px;
             }
-            
+
             .thankyou-title {
                 font-size: 2rem;
             }
-            
+
             .thankyou-message {
                 font-size: 1.1rem;
             }
-            
+
             .contact-info {
                 flex-direction: column;
                 gap: 15px;
@@ -209,24 +213,26 @@
         }
     </style>
 </head>
+
 <body>
     <div class="thankyou-container" data-aos="fade-up">
         <div class="success-icon">
             <i class="bi bi-check-lg"></i>
         </div>
-        
+
         <h1 class="thankyou-title">Thank You</h1>
         <p class="thankyou-message">Your request has been received.</p>
-        
+
         <a href="index.html" class="btn-back-home">
             <i class="bi bi-house-door"></i>
             Back to Home
         </a>
-        
+
         <div class="additional-info">
             <p><strong>What happens next?</strong></p>
-            <p>Our sales advisors will review your information and contact you within 24 hours to discuss your interest in Aeschi Park.</p>
-            
+            <p>Our sales advisors will review your information and contact you within 24 hours to discuss your interest
+                in Aeschi Park.</p>
+
             <div class="contact-info">
                 <a href="mailto:info@aeschipark.ch" class="contact-item">
                     <i class="bi bi-envelope"></i>
@@ -249,4 +255,5 @@
         });
     </script>
 </body>
+
 </html>
